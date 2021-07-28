@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next';
 import { getPrismicClient } from '../services/prismic';
+import { FaCalendar, FaUser } from 'react-icons/fa'
 import Head from 'next/head';
 
 import commonStyles from '../styles/common.module.scss';
@@ -36,26 +37,16 @@ export default function Home() {
           <a>
             <h1>Como utilizar hooks</h1>
             <h2>Pensando em sincronização em vez de ciclos de vida</h2>
-            <time>15 mar 2021</time>
-            <span>Diego Fernandes</span>
-          </a>
-          <a>
-            <h1>Como utilizar hooks</h1>
-            <h2>Pensando em sincronização em vez de ciclos de vida</h2>
-            <time>15 mar 2021</time>
-            <span>Diego Fernandes</span>
-          </a>
-          <a>
-            <h1>Como utilizar hooks</h1>
-            <h2>Pensando em sincronização em vez de ciclos de vida</h2>
-            <time>15 mar 2021</time>
-            <span>Diego Fernandes</span>
-          </a>
-          <a>
-            <h1>Como utilizar hooks</h1>
-            <h2>Pensando em sincronização em vez de ciclos de vida</h2>
-            <time>15 mar 2021</time>
-            <span>Diego Fernandes</span>
+            <div>
+              <time>
+                <span><FaCalendar style={{fontSize: 20}} /></span>
+                15 mar 2021
+                </time>
+              <p>
+                <span><FaUser style={{fontSize: 20}} /></span>
+                Diego Fernandes
+              </p>
+            </div>
           </a>
 
           <button type="button">
