@@ -1,6 +1,12 @@
 import { GetStaticProps } from 'next';
 import { getPrismicClient } from '../services/prismic';
 import { FaCalendar, FaUser } from 'react-icons/fa'
+import { RichText } from 'prismic-dom'
+import { format } from 'date-fns'
+import { useState } from 'react';
+import ptBR from 'date-fns/locale/pt-BR'
+
+import Prismic from '@prismicio/client'
 import Head from 'next/head';
 
 import commonStyles from '../styles/common.module.scss';
@@ -25,32 +31,37 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
-export default function Home() {
+export default function Home({ postsPagination }: HomeProps) {
+  const [posts, setPosts] = useState<Post[]>(postsPagination.results)
+
+
   return (
     <>
       <Head>
-        <title>Home | EWW-blog</title>
+        <title>Home | spacetraveling</title>
       </Head>
 
       <main className={styles.container}>
         <div className={styles.posts}>
-          <a>
-            <h1>Como utilizar hooks</h1>
-            <h2>Pensando em sincronização em vez de ciclos de vida</h2>
-            <div>
-              <time>
-                <span><FaCalendar style={{fontSize: 20}} /></span>
-                15 mar 2021
-                </time>
-              <p>
-                <span><FaUser style={{fontSize: 20}} /></span>
-                Diego Fernandes
-              </p>
-            </div>
-          </a>
+          { posts.map(post => (
+            <a key={post.uid}>
+              <h1>{post.data.title}</h1>
+              <h2>{post.data.subtitle}</h2>
+              <div>
+                <time>
+                  <span><FaCalendar style={{fontSize: 20}} /></span>
+                  {post.first_publication_date}
+                  </time>
+                <p>
+                  <span><FaUser style={{fontSize: 20}} /></span>
+                  {post.data.author}
+                </p>
+              </div>
+            </a>
+          )) }
 
           <button type="button">
-            Carregar posts
+            Carregar mais posts
           </button>
         </div>
       </main>
@@ -58,9 +69,19 @@ export default function Home() {
   )
 }
 
-// export const getStaticProps = async () => {
-//   // const prismic = getPrismicClient();
-//   // const postsResponse = await prismic.query(TODO);
+export const getStaticProps: GetStaticProps = async () => {
+  const prismic = getPrismicClient();
 
-//   // TODO
-// };
+  const postsResponse = await prismic.query(
+    Prismic.Predicates.at('document.type', 'posts'),
+    {
+      pageSize: 2,
+    }
+  );
+
+  return {
+    props: {
+      postsPagination: postsResponse
+    }
+  }
+};
