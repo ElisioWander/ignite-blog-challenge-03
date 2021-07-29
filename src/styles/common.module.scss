@@ -1,1 +1,19 @@
-// TODO
+.postHeaderStyle {
+  display: flex;
+
+  time,
+  p {
+    display: flex;
+    align-items: center;
+
+    margin-right: 1.5rem;
+
+    font-size: 0.8rem;
+
+    color: var(--gray-100);
+
+    span {
+      margin-right: 0.5rem;
+    }
+  }
+}

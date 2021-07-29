@@ -1,1 +1,36 @@
-// TODO
+.postBanner {
+  width: 100%;
+  height: 25rem;
+
+  background-size: cover;
+  background-position: center;
+}
+
+.postContainer {
+  max-width: 720px;
+
+  margin: 5rem auto;
+  padding: auto 2rem;
+
+  .postHeader {
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+    }
+
+    div {
+      margin: 1.5rem 0 4rem;
+    }
+  }
+
+  .postArticle {
+    h2 {
+      margin: 2rem 0;
+    }
+
+    div {
+      font-size: 1.12rem;
+      line-height: 1.57rem;
+    }
+  }
+}
