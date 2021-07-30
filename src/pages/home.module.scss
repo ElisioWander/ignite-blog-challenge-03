@@ -16,6 +16,11 @@
     h1 {
       font-size: 1.75rem;
       font-weight: 700;
+
+      transition: color 200ms;
+      &:hover {
+        color: var(--pink);
+      }
     }
 
     h2 {
@@ -37,6 +42,12 @@
 
     color: var(--pink);
     background-color: transparent;
+
+    transition: filter 200ms;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
   }
 }
 
