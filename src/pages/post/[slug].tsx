@@ -3,7 +3,9 @@ import { getPrismicClient } from '../../services/prismic';
 import { format } from 'date-fns'
 import { FaCalendar, FaUser, FaClock } from 'react-icons/fa'
 import { RichText } from 'prismic-dom';
+import { useRouter } from 'next/router';
 
+import Prismic from '@prismicio/client'
 import Head from 'next/head'
 import ptBR from 'date-fns/locale/pt-BR'
 
@@ -32,16 +34,33 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps) {
+  const router = useRouter()
+
+  if(router.isFallback) {
+    return <span>Carregando...</span>
+  }
+
+  const readingTime = post.data.content.reduce((acc, content) => {
+    const headingWords = content.heading.split(' ')
+    const bodyWords = RichText.asText(content.body).split(' ')
+    acc += headingWords.length
+    acc += bodyWords.length
+
+    return acc
+  }, 0)
+
   return (
     <>
       <Head>
         <title>{post.data.title}</title>
       </Head>
 
-      <section
-        className={styles.postBanner}
-        style={{ backgroundImage: `url(${post.data.banner.url})` }}
-      />
+      { post.data.banner.url && (
+        <section
+          className={styles.postBanner}
+          style={{ backgroundImage: `url(${post.data.banner.url})` }}
+        />
+      )}
 
       <div className={styles.postContainer}>
         <section className={styles.postHeader}>
@@ -63,13 +82,12 @@ export default function Post({ post }: PostProps) {
               <span>
                 <FaClock style={{fontSize: 20}} />
               </span>
-              4 min
+              { Math.ceil(readingTime /200) } min
             </time>
           </div>
         </section>
 
         {post.data.content.map(content => {
-          console.log(content.body)
           return (
             <main key={content.heading}>
               <article className={styles.postArticle}>
@@ -88,12 +106,19 @@ export default function Post({ post }: PostProps) {
   )
 }
 
-export const getStaticPaths = async () => {
-  // const prismic = getPrismicClient();
-  // const posts = await prismic.query(TODO);
+export const getStaticPaths: GetStaticPaths = async () => {
+  const prismic = getPrismicClient();
+  const posts = await prismic.query([
+    Prismic.Predicates.at('document.type', 'posts')
+  ]);
+
+  const paths = posts.results.map(post => ({
+    params: { slug: post.uid }
+  }))
+
   return {
-    paths: [],
-    fallback: 'blocking'
+    paths,
+    fallback: true
   }
 };
 
