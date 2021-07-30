@@ -51,7 +51,7 @@ localhost:3000
 
 ---
 ## 📝 Licença
-Copyright © 2020 [@ElisioWander](https://github.com/ElisioWander/-ignews-bootcamp-ignite-rocketseat/blob/master/LICENSE)
+Copyright © 2020 [@ElisioWander](https://github.com/ElisioWander/ignite-blog-challenge-03/blob/master/LICENSE)
 
 Este projeto está sobe a [LICENÇA MIT](https://opensource.org/licenses/MIT)
 
